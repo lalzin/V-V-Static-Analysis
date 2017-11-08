@@ -1,4 +1,4 @@
-package istic.vv.tests;
+package istic.vv;
 
 import java.util.HashMap;
 import java.util.Iterator;

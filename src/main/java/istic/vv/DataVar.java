@@ -1,4 +1,4 @@
-package istic.vv.tests;
+package istic.vv;
 
 public class DataVar {
 

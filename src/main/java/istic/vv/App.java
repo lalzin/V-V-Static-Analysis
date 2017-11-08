@@ -1,4 +1,4 @@
-package istic.vv.tests;
+package istic.vv;
 
 import java.io.File;
 import java.util.Map;
@@ -19,7 +19,7 @@ public class App
         Launcher launcher = new Launcher();
         launcher.getEnvironment().setAutoImports(true);
         launcher.getEnvironment().setNoClasspath(true);
-        File inDir = new File("src/main/java/istic/vv/tests/TestNullPointer.java");
+        File inDir = new File("/home/simon/eclipse-workspace/istic.vv/src/main/java/istic/vv/TestNullPointer.java");
         launcher.addInputResource(inDir.getPath());
         launcher.buildModel();
         CtModel root = launcher.getModel();
