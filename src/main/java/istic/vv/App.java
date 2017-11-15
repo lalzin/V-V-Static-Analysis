@@ -14,32 +14,41 @@ public class App
 {
     public static void main( String[] args )
     {
-        System.out.println( "Hello World!" );
-        
+       
         Launcher launcher = new Launcher();
         launcher.getEnvironment().setAutoImports(true);
         launcher.getEnvironment().setNoClasspath(true);
-        File inDir = new File("/home/simon/eclipse-workspace/istic.vv/src/main/java/istic/vv/TestNullPointer.java");
+        File inDir = new File("./src/main/java/istic/vv/SimpleTestNullPointer.java");
         launcher.addInputResource(inDir.getPath());
         launcher.buildModel();
         CtModel root = launcher.getModel();
 
-        DeclareProcessor processor = new DeclareProcessor();
-        launcher.addProcessor(processor);
+        // DECOMMENTER LES LIGNES CI-DESSOUS POUR OBTENIR LE NOMBRE CYCLOMATIQUE
         
+        /*CycloProcessor processor = new CycloProcessor();
+        launcher.addProcessor(processor);
+        launcher.process();*/
+        
+                
+        NullProcessor nullProcessor = new NullProcessor();
+        launcher.addProcessor(nullProcessor);
         launcher.process();
         
-       
         
-        Map<String, DataVar> hashMap =  processor.getMapVar();
-        for (String mapKey : hashMap.keySet()) {
-        	System.out.println("-> KEY ["+mapKey+"] VALUE ["+hashMap.get(mapKey).getValue()+
-        						"] STATUS ["+hashMap.get(mapKey).getStatus()+"]");
-        }
+        // Affiche le contenu du hashmap gérant les variables/attributs de la classe inspectée
+        for (String mapKey : nullProcessor.getMapVar().keySet()) {
+        	DataVar data = nullProcessor.getMapVar().get(mapKey);
+        	System.out.println("< "+mapKey+" , "+data.getValue()+" >");
+        	
+        }        
         
+        /*
         File outDir = new File("generation");
         launcher.setSourceOutputDirectory(outDir.getPath());
         launcher.prettyprint();
-        
+        */
     }
+    
+    
+    
 }
