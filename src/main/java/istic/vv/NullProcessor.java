@@ -5,11 +5,16 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import istic.vv.DataVar.STATUS;
 import spoon.processing.AbstractProcessor;
 import spoon.reflect.code.CtBlock;
 import spoon.reflect.code.CtStatement;
+import spoon.reflect.code.CtVariableAccess;
+import spoon.reflect.declaration.CtElement;
 import spoon.support.reflect.code.CtAssignmentImpl;
+import spoon.support.reflect.code.CtInvocationImpl;
 import spoon.support.reflect.code.CtLocalVariableImpl;
+import spoon.support.reflect.code.CtVariableReadImpl;
 import spoon.support.reflect.declaration.CtClassImpl;
 import spoon.support.reflect.declaration.CtFieldImpl;
 import spoon.support.reflect.declaration.CtMethodImpl;
@@ -40,15 +45,27 @@ public class NullProcessor extends AbstractProcessor<CtClassImpl> {
 					assignProcess((CtAssignmentImpl) stat);
 				} else if (stat instanceof CtLocalVariableImpl){
 					localVariableProcess((CtLocalVariableImpl) stat);
-				}			
-				else {
-					System.out.println(stat.toString() + " : " +stat.getClass());
+				} else if (stat instanceof CtInvocationImpl) {
+					readVariableProcess((CtInvocationImpl) stat);
+				} else {
+					//System.out.println(stat.toString() + " : " +stat.getClass());
 				}
 			}
 			
 		}		
 	}
 	
+	private void readVariableProcess(CtInvocationImpl stat) {
+
+		for ( CtElement elem : stat.getElements(null) ) {
+			if(mapVar.containsKey(elem.toString())){
+				if(mapVar.get(elem.toString()).getValue().equals("null")) {
+					mapVar.get(elem.toString()).setStatus(STATUS.ALERT);
+				}
+			}
+		}
+	}
+
 	private void localVariableProcess(CtLocalVariableImpl locVar) {
 		String locVarName = locVar.getSimpleName();
 		String assignement = locVar.getAssignment().toString();
