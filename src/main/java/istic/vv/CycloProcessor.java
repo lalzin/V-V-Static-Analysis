@@ -4,8 +4,13 @@ import java.util.Iterator;
 
 import spoon.processing.AbstractProcessor;
 import spoon.reflect.code.CtBlock;
+import spoon.reflect.code.CtConditional;
+import spoon.reflect.code.CtIf;
+import spoon.reflect.code.CtLoop;
 import spoon.reflect.code.CtStatement;
 import spoon.reflect.declaration.CtMethod;
+import spoon.reflect.visitor.Filter;
+import spoon.reflect.visitor.filter.TypeFilter;
 import spoon.support.reflect.code.CtForEachImpl;
 import spoon.support.reflect.code.CtForImpl;
 import spoon.support.reflect.code.CtIfImpl;
@@ -15,36 +20,21 @@ import spoon.support.reflect.declaration.CtMethodImpl;
 
 public class CycloProcessor extends AbstractProcessor<CtMethodImpl> {
 
-	int nbCyclo = 1;
+	static int nbCyclo = 1;
 	
 	public void process(CtMethodImpl method) {
 
-		System.out.println("-> Cyclo Processor");
+	
+		int nbCond = method.getElements(new TypeFilter(CtIf.class)).size();
+		int nbLoop = method.getElements(new TypeFilter(CtLoop.class)).size();
 
-		
-		CtBlock block = method.getBody();
-		Iterator<CtStatement> ite = block.iterator();
-		
-		while(ite.hasNext()) {
-			CtStatement statement = ite.next();
-			if(statement instanceof CtIfImpl) {
-				nbCyclo ++;
-			} else if (statement instanceof CtForImpl)  {
-				nbCyclo ++;
-			}else if(statement instanceof CtForEachImpl)  {
-				nbCyclo ++;
-			}else if(statement instanceof CtWhileImpl)  {
-				nbCyclo ++;
-			}else if(statement instanceof CtSwitchImpl)  {
-				nbCyclo += ((CtSwitchImpl) statement).getCases().size();
-			}
-		}
+		nbCyclo = nbCyclo + nbCond + nbLoop;
 	}
 
 	public int getNbCyclo() {
 		return nbCyclo;
 	}
-	
+
 	
 
 }

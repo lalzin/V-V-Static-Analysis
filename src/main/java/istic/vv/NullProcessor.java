@@ -12,6 +12,7 @@ import spoon.reflect.code.CtStatement;
 import spoon.reflect.code.CtVariableAccess;
 import spoon.reflect.declaration.CtElement;
 import spoon.support.reflect.code.CtAssignmentImpl;
+import spoon.support.reflect.code.CtIfImpl;
 import spoon.support.reflect.code.CtInvocationImpl;
 import spoon.support.reflect.code.CtLocalVariableImpl;
 import spoon.support.reflect.code.CtVariableReadImpl;
@@ -45,8 +46,10 @@ public class NullProcessor extends AbstractProcessor<CtClassImpl> {
 					assignProcess((CtAssignmentImpl) stat);
 				} else if (stat instanceof CtLocalVariableImpl){
 					localVariableProcess((CtLocalVariableImpl) stat);
+				} else if(stat instanceof CtIfImpl) {
+					ifProcess();
 				} else if (stat instanceof CtInvocationImpl) {
-					readVariableProcess((CtInvocationImpl) stat);
+					invocationProcess((CtInvocationImpl) stat);
 				} else {
 					//System.out.println(stat.toString() + " : " +stat.getClass());
 				}
@@ -55,7 +58,12 @@ public class NullProcessor extends AbstractProcessor<CtClassImpl> {
 		}		
 	}
 	
-	private void readVariableProcess(CtInvocationImpl stat) {
+	private void ifProcess() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	private void invocationProcess(CtInvocationImpl stat) {
 
 		for ( CtElement elem : stat.getElements(null) ) {
 			if(mapVar.containsKey(elem.toString())){
@@ -86,7 +94,6 @@ public class NullProcessor extends AbstractProcessor<CtClassImpl> {
 		String assignement = assign.getAssignment().toString();
 		
 		mapVar.put(assigned, new DataVar(assignement, DataVar.STATUS.OK));
-		
 
 	}
 

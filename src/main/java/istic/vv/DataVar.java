@@ -6,7 +6,8 @@ public class DataVar {
 	public enum STATUS {
 		  OK,
 		  WARNING,
-		  ALERT	
+		  ALERT,
+		  UNDEFINED
 	}
 	
 	

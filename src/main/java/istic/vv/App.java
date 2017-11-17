@@ -31,12 +31,12 @@ public class App
 
         // DECOMMENTER LES LIGNES CI-DESSOUS POUR OBTENIR LE NOMBRE CYCLOMATIQUE
         
-        /*CycloProcessor processor = new CycloProcessor();
+        CycloProcessor processor = new CycloProcessor();
         launcher.addProcessor(processor);
-        launcher.process();*/
+        launcher.process();
         
-                
-        NullProcessor nullProcessor = new NullProcessor();
+        System.out.println( "nbCyclo = "+processor.getNbCyclo());
+       /* NullProcessor nullProcessor = new NullProcessor();
         launcher.addProcessor(nullProcessor);
         launcher.process();
         
@@ -58,7 +58,7 @@ public class App
         System.out.println("nbAlert = " + nbAlert);
         System.out.println("nbWarning = " + nbWarning);
         System.out.println("nbOk = " + nbOk);
-
+*/
         /*
         File outDir = new File("generation");
         launcher.setSourceOutputDirectory(outDir.getPath());
