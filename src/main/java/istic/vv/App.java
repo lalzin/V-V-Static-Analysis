@@ -24,7 +24,7 @@ public class App
         Launcher launcher = new Launcher();
         launcher.getEnvironment().setAutoImports(true);
         launcher.getEnvironment().setNoClasspath(true);
-        File inDir = new File("./src/main/java/istic/vv/SimpleTestNullPointer.java");
+        File inDir = new File("./src/main/java/istic/vv/TestNullPointer.java");
         launcher.addInputResource(inDir.getPath());
         launcher.buildModel();
         CtModel root = launcher.getModel();
