@@ -1,7 +1,12 @@
 package istic.vv;
 
 import java.io.File;
+import java.util.Collection;
 import java.util.Map;
+
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.filefilter.DirectoryFileFilter;
+import org.apache.commons.io.filefilter.RegexFileFilter;
 
 import istic.vv.DataVar.STATUS;
 import spoon.Launcher;
@@ -21,21 +26,34 @@ public class App
     	int nbOk = 0;
 
        
-        Launcher launcher = new Launcher();
-        launcher.getEnvironment().setAutoImports(true);
-        launcher.getEnvironment().setNoClasspath(true);
-        File inDir = new File("./src/main/java/istic/vv/TestNullPointer.java");
-        launcher.addInputResource(inDir.getPath());
-        launcher.buildModel();
-        CtModel root = launcher.getModel();
+
 
         // DECOMMENTER LES LIGNES CI-DESSOUS POUR OBTENIR LE NOMBRE CYCLOMATIQUE
         
-        CycloProcessor processor = new CycloProcessor();
-        launcher.addProcessor(processor);
-        launcher.process();
-        
-        System.out.println( "nbCyclo = "+processor.getNbCyclo());
+		File dir = new File("/home/simon/eclipse-workspace/Camenbert");
+		Collection<File> files = FileUtils.listFiles(dir,new RegexFileFilter("^(\\w*\\.java$)"),DirectoryFileFilter.DIRECTORY);
+		if(files.size()==0)System.out.println("NULL");
+		int totalCyclo = 0;
+		for(File file : files) {
+	        Launcher launcher = new Launcher();
+	        launcher.getEnvironment().setAutoImports(true);
+	        launcher.getEnvironment().setNoClasspath(true);
+	        //File inDir = new File("./src/main/java/istic/vv/TestNullPointer.java");
+	        launcher.addInputResource(file.getPath());
+	        launcher.buildModel();
+	        CtModel root = launcher.getModel();
+			CycloProcessor processor = new CycloProcessor();
+	        System.out.println("File : "+file.getName());
+	        launcher.addProcessor(processor);
+	        launcher.process();
+	        System.out.println("cycloFile = "+processor.getNbCyclo());
+	        totalCyclo = totalCyclo+ processor.getNbCyclo();
+	        
+		}
+
+				
+
+        System.out.println( "nbCycloFolder = "+totalCyclo);
        /* NullProcessor nullProcessor = new NullProcessor();
         launcher.addProcessor(nullProcessor);
         launcher.process();
