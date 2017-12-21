@@ -2,14 +2,10 @@ package istic.vv.test;
 
 import static org.junit.Assert.*;
 
-import java.io.File;
-
 import org.junit.Test;
 
-import istic.vv.CycloProcessor;
 import istic.vv.ScannerVandV;
-import spoon.Launcher;
-import spoon.reflect.CtModel;
+
 
 //Class de test pour le calcul du cyclomatique
 public class CycloProcessorTest {
