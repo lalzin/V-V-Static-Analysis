@@ -22,16 +22,15 @@ public class NullPointerProcessorTest {
     	ArrayList<DataVar> listResults = ScannerVandV.nullPointerScanner("./input/NullPointerIf.java");
 
     	ArrayList<DataVar> listExpectedResult = new ArrayList<DataVar>();
-    	
-    	
-    	 /*OK for [var4] with value ["titi"] at line 16
-			WARNING for [var4] with value [null] at line 20
-			OK for [var3] with value ["tutu"] at line 27
-			ALERT for [var1] with value [null] at line 29
-			OK for [var2] with value ["toto"] at line 31*/
+
+    /*	OK for [var4] with value ["titi"] at line 16
+    	OK for [var2] with value ["toto"] at line 24
+    	OK for [var3] with value ["tutu"] at line 27
+    	ALERT for [var1] with value [null] at line 29
+    	OK for [var2] with value ["toto"] at line 31*/
     	
     	DataVar data1 = new DataVar("\"titi\"", STATUS.OK, 16, "var4");
-    	DataVar data2 = new DataVar("null", STATUS.WARNING, 20, "var4");
+    	DataVar data2 = new DataVar("\"toto\"", STATUS.OK, 24, "var2");
     	DataVar data3 = new DataVar("\"tutu\"", STATUS.OK, 27, "var3");
     	DataVar data4 = new DataVar("null", STATUS.ALERT, 29, "var1");
     	DataVar data5 = new DataVar("\"toto\"", STATUS.OK, 31, "var2");
@@ -41,6 +40,8 @@ public class NullPointerProcessorTest {
     	listExpectedResult.add(data3);
     	listExpectedResult.add(data4);
     	listExpectedResult.add(data5);
+    	
+   
     	
     	assertTrue(ScannerVandV.equalsResultNPE(listResults,listExpectedResult));
 		

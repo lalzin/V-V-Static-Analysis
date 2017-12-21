@@ -1,6 +1,6 @@
 package istic.vv;
 
-public class NullPointerIfElse {
+public class NullPointerWhileIfElse {
 
 	String var1 = null;
 	

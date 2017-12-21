@@ -27,10 +27,10 @@ public class App
     public static void main( String[] args )
     {
     	     		
-    	//int cycloResult = ScannerVandV.cyclomaticScanner("/home/simon/eclipse-workspace/Camenbert");
-    	//log.info("CYCLOMATIC = "+cycloResult);
+    	int cycloResult = ScannerVandV.cyclomaticScanner("./input");
+    	log.info("CYCLOMATIC = "+cycloResult);
     	
-    	/*ArrayList<DataVar> listResults = ScannerVandV.nullPointerScanner("./input/NullPointer2Methods.java");
+    	ArrayList<DataVar> listResults = ScannerVandV.nullPointerScanner("./input/NullPointerIf.java");
 				
 		for (DataVar data : listResults ) {
         	if(data.getStatus().equals(STATUS.ALERT)) {
@@ -41,7 +41,6 @@ public class App
         		log.info("OK for ["+data.getVariableName()+"] with value ["+data.getValue()+"] at line "+data.getLine());
         	}
         } 
-    	*/
     	
       
     }

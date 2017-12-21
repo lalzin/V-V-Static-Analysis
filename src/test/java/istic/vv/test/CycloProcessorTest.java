@@ -21,7 +21,7 @@ public class CycloProcessorTest {
 	//Test cyclomatique pour le fichier NullPointer2If contenant un seul if
 	@Test
 	public void testCycloFileIf() {
-		int nbCycloResult = ScannerVandV.cyclomaticScannerForFile("./input/NullPointer2If.java");
+		int nbCycloResult = ScannerVandV.cyclomaticScannerForFile("./input/NullPointerIf.java");
 		assertNotNull(nbCycloResult);
 		assertEquals(2, nbCycloResult);
 	}

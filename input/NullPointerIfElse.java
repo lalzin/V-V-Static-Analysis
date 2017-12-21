@@ -1,6 +1,6 @@
 package istic.vv;
 
-public class NullPointerIfElse {
+public class NullPointerIfElse{
 
 	String var1 = null;
 	
@@ -9,19 +9,19 @@ public class NullPointerIfElse {
 	Integer var3 = null;
 
 	
-	// RESULT = 4(ok) + 0(warning) + 1(alert)
+	// RESULT = 3(ok) + 1(warning) + 1(alert)
 		public void test() {
 		
 			String var4 = "titi";
 			var4.length(); // NPE = NO
 			
 			var4 = null;
-			
 			if(var2.length()=4) {
-				var2 = null;
+				var4.toString(); // NPE = YES
 			}
-			
-			var2.length(); // NPE = NO
+			else {
+				var4=null;
+			}
 			
 			var3 = "tutu";
 			var3.toString(); // NPE = NO
@@ -30,4 +30,6 @@ public class NullPointerIfElse {
 			
 			var2.toString(); // NPE = NO
 		}
+
+
 }
