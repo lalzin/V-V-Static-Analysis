@@ -1,6 +1,7 @@
 package istic.vv;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Collection;
 
 import org.apache.commons.io.FileUtils;
@@ -52,7 +53,7 @@ public class ScannerVandV {
 	        return totalCyclo;
 	    }
 	    
-	    public static void nullPointerScanner(String fileToAnalyse) {
+	    public static ArrayList<DataVar> nullPointerScanner(String fileToAnalyse) {
 	    	
 	    	log.debug("### NullPointerException Scanner ###");
 	    	
@@ -70,7 +71,7 @@ public class ScannerVandV {
 	        launcher.process();
 	       
 	        // Affiche les résultats de l'analyse NPE
-	        for (DataVar data : nullProcessor.getResultNpe()) {
+	       /* for (DataVar data : nullProcessor.getResultNpe()) {
 	        	if(data.getStatus().equals(STATUS.ALERT)) {
 	        		log.info("ALERT for ["+data.getVariableName()+"] with value ["+data.getValue()+"] at line "+data.getLine());
 	        	} else if(data.getStatus().equals(STATUS.WARNING)) {
@@ -78,8 +79,9 @@ public class ScannerVandV {
 	        	} else if(data.getStatus().equals(STATUS.OK)) {
 	        		log.info("OK for ["+data.getVariableName()+"] with value ["+data.getValue()+"] at line "+data.getLine());
 	        	}
-	        }     
+	        }     */
 
+	        return nullProcessor.getResultNpe();
 	    }
 	    
 	
