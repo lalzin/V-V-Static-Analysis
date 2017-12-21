@@ -142,6 +142,14 @@ public class ScannerVandV {
 	        return nullProcessor.getResultNpe();
 	    }
 
+	    /**
+	     * Méthode utile pour les tests.
+	     * Permet de savoir si les résultats attendus est le bon.
+	     * 
+	     * @param listResults les résultats issus de l'analyse
+	     * @param listExpectedResult les résultats attendus
+	     * @return true si identique, false sinon.
+	     */
 		public static boolean equalsResultNPE(ArrayList<DataVar> listResults, ArrayList<DataVar> listExpectedResult) {
 			
 			if(listResults.size() != listExpectedResult.size()) {
