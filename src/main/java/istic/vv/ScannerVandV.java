@@ -13,11 +13,30 @@ import istic.vv.DataVar.STATUS;
 import spoon.Launcher;
 import spoon.reflect.CtModel;
 
+/**
+ * Point d'entrée du projet. 
+ * Voici ces fonctionnalités : 
+ * 	- Scanneur de projet pour obtenir le nombre cyclomatique
+ *  - Scanneur de fichier pour obtenir le nombre cyclomatique
+ *  - Scanneur de fichier pour obtenir une analyse des risques de NullPointerException
+ *  
+ * @author Simon LEDOUX-LEVIN / Alan MARZIN
+ *
+ */
 public class ScannerVandV {
+	
+	
 
 	final static Logger log = Logger.getLogger(ScannerVandV.class);
 
-	
+	  /**
+	   * Méthode permettant d'otbenir le nombre cylomatique de tout un projet.
+	   * Il parcourt tout le repertoire et sous-répertoire afin d'analyser les fichiers .JAVA.
+	   * Il fait appel au processor CycloProcessor.
+	   * 
+	   * @param directoryPath le chemin du projet a analyser.
+	   * @return le nombre cyclomatique du projet
+	   */
 	  public static int cyclomaticScanner(String directoryPath) {
 	    	
 	    	log.debug("### Cyclomatic Scanner ###");
@@ -53,11 +72,18 @@ public class ScannerVandV {
 	        return totalCyclo;
 	    }
 	  
-	  public static int cyclomaticScannerFoFile(String filePath) {
+	  /**
+	   * Méthode permettant d'otbenir le nombre cylomatique d'un fichier .JAVA.
+	   * Il fait appel au processor CycloProcessor.
+	   * 
+	   * @param filePath le chemin du fichier a analyser.
+	   * @return le nombre cyclomatique du fichier
+	   */
+	  public static int cyclomaticScannerForFile(String filePath) {
 	    	
 	    	log.debug("### Cyclomatic Scanner One File ###");
 	    	
-	    	//Chemin vers le répertoire du projet a scanner
+	    	//Chemin vers le fichier a analyser
 	    	File oneFile= new File(filePath);
 	    	log.debug("## Fichier analysée :" + oneFile.getName() +" ##");
 	    	
@@ -79,6 +105,24 @@ public class ScannerVandV {
 	        return processor.getNbCyclo();
 	    }
 	    
+	  /**
+	   * 
+	   * Méthode permettant d'executer une analyse des risques des NullPointerExpception d'un fichier JAVA.
+	   * Elle utilise le processor NullPointerProcessor.
+	   * Il retourne un rapport/une liste contenant des objets résumant les appels effectués.
+	   * Le type DataVar est structuré comme suit :
+	   * 	VariableName : la variable appelée, concerné.
+	   * 	Value : La valeur de la variable concerné
+	   * 	Status : 3  valeurs : 
+	   * 					Alert (le NPE est certains d'être déclenché)
+	   * 					Warning (Le NPE est potentiellement dangereux. Impossible de le determiner.
+	   * 					OK (L'appel est safe, pas de NPE potentiel.
+	   * 	Line : La ligne concerné dans le programme analysé.
+
+	   * 
+	   * @param fileToAnalyse le fichier JAVA a analyser.
+	   * @return Une liste résumant les appels effectués et leurs caractéristiques.
+	   */
 	    public static ArrayList<DataVar> nullPointerScanner(String fileToAnalyse) {
 	    	
 	    	log.debug("### NullPointerException Scanner ###");
@@ -93,19 +137,7 @@ public class ScannerVandV {
 	        launcher.addProcessor(nullProcessor);
 	        
 	        launcher.buildModel();
-
 	        launcher.process();
-	       
-	        // Affiche les résultats de l'analyse NPE
-	       /* for (DataVar data : nullProcessor.getResultNpe()) {
-	        	if(data.getStatus().equals(STATUS.ALERT)) {
-	        		log.info("ALERT for ["+data.getVariableName()+"] with value ["+data.getValue()+"] at line "+data.getLine());
-	        	} else if(data.getStatus().equals(STATUS.WARNING)) {
-	        		log.info("WARNING for ["+data.getVariableName()+"] with value ["+data.getValue()+"] at line "+data.getLine());
-	        	} else if(data.getStatus().equals(STATUS.OK)) {
-	        		log.info("OK for ["+data.getVariableName()+"] with value ["+data.getValue()+"] at line "+data.getLine());
-	        	}
-	        }     */
 
 	        return nullProcessor.getResultNpe();
 	    }

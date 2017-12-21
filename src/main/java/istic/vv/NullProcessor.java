@@ -28,17 +28,33 @@ import spoon.support.reflect.declaration.CtClassImpl;
 import spoon.support.reflect.declaration.CtFieldImpl;
 import spoon.support.reflect.declaration.CtMethodImpl;
 
+/**
+ * Classe processor Spoon qui a pour préoccupation l'analyse statique de classe pour la détection des NullPointerException
+* 
+ * 
+ * @author Simon LEDOUX-LEVIN / Alan MARZIN
+ *
+ */
 public class NullProcessor extends AbstractProcessor<CtClassImpl> {
 	
 	private boolean addOkValue = true;
 
+	/** Pile des tableaux gérant les variables pouvant declencher potentiellement un NullPointer */
 	private ArrayList<HashMap<String, String>> stackVariable = new ArrayList<HashMap<String,String>>();
 		
-	private ArrayList<DataVar> resultNpe = new ArrayList<DataVar>();
+	/** Résultat de l'analuse NPE. C'est cet élement que l'user doit recupérer. */
 	
+	private ArrayList<DataVar> resultNpe = new ArrayList<DataVar>();
+
 	private int blockDepth = 0;
 
 	
+	/**
+	 * Méthode du processeur Spoon. 
+	 * Analyse toute les méthodes et les statements de la classe envoyé dans le processeur.
+	 * 
+	 * @param myClass classe analysée par le processor.
+	 */
 	public void process(CtClassImpl myClass) {
 		
 		HashMap<String, String> mapVarGlobal = new HashMap<String, String>();
@@ -59,7 +75,12 @@ public class NullProcessor extends AbstractProcessor<CtClassImpl> {
 	}
 	
 
-	
+	/**
+	 * Méthode que l'on peut determiné de "proxy".
+	 * En fonction de l'instruction analysée, il dirigé le statement vers la méthode approprié.
+	 * 
+	 * @param stat l'instruction devant être dirigé vers la méthode qui convient
+	 */
 	private void statementProcess(CtStatement stat) {
 		if(stat instanceof CtAssignmentImpl) {
 			assignProcess((CtAssignmentImpl) stat);
@@ -86,6 +107,12 @@ public class NullProcessor extends AbstractProcessor<CtClassImpl> {
 	}
 
 
+	/**
+	 * Méthode de traitement des Block. 
+	 * Elle itère sur les instructions du block et l'envoie à la méthode statementProcess.
+	 * 
+	 * @param block le block a traité
+	 */
 	private void blockProcess(CtBlockImpl block) {
 		Iterator<CtStatement> ite = block.iterator();
 		while(ite.hasNext()) {
@@ -94,18 +121,34 @@ public class NullProcessor extends AbstractProcessor<CtClassImpl> {
 		}		
 	}
 
+	/**
+	 * Méthode de traitement des boucles
+	 * 
+	 * @param stat la boucle a traité
+	 */
 	private void whileProcess(CtLoop stat) {
 
 		statementProcess(stat.getBody());
 	}
 
 
+	/**NON FONCTIONNEL. 
+	 * La gestion des conditions/expressions n'est pas fonctionelle.
+	 * 
+	 * 
+	 * @param ctExpression l'expression a traité
+	 */
 	private void conditionProcess(CtExpression ctExpression) {
 		// TODO Auto-generated method stub
 		
 	}
 
 
+	/**Méthode de traitement des IfElse
+	 * 
+	 * 
+	 * @param ifStat le block If/Else a analyser.
+	 */
 	private void ifProcess(CtIfImpl ifStat) {
 	
 		conditionProcess(ifStat.getCondition());
@@ -115,6 +158,12 @@ public class NullProcessor extends AbstractProcessor<CtClassImpl> {
 		}
 	}
 
+	/**Méthode qui traite l'invocation d'une variable.
+	 * Cest ici que l'analyse NPE determine si un appel est dangereux, potentiellement dangereux ou non.
+	 * 
+	 * 
+	 * @param stat l'invocation/l'appel a traiter.
+	 */
 	private void invocationProcess(CtInvocationImpl stat) {
 
 		for ( CtElement elem : stat.getElements(null) ) {
@@ -151,6 +200,12 @@ public class NullProcessor extends AbstractProcessor<CtClassImpl> {
 		}
 	}
 
+	/**
+	 * Méthode privée filtrant les doublons dans la liste des resultats NPE.
+	 * 
+	 * @param maDataVar l'objet a checker en doublon
+	 * @return true si l'objet n'est pas présent, false sinon.
+	 */
 	private boolean checkAddResult(DataVar maDataVar) {
 		
 		for(DataVar itData : getResultNpe())  {
@@ -166,6 +221,12 @@ public class NullProcessor extends AbstractProcessor<CtClassImpl> {
 		return true;
 	}
 
+	/**
+	 * Méthode traitant la déclarations dzes variables locales.
+	 * La valeur de la variable est stockée dans le hashmap courant de stackVariable.
+	 * 
+	 * @param locVar la variable local a traiter
+	 */
 	private void localVariableProcess(CtLocalVariableImpl locVar) {
 		String locVarName = locVar.getSimpleName();
 		String assignement = locVar.getAssignment().toString();
@@ -173,6 +234,11 @@ public class NullProcessor extends AbstractProcessor<CtClassImpl> {
 		stackVariable.get(blockDepth).put(locVarName,assignement);		
 	}
 
+	/**
+	 * Méthode traitant la déclaration des attributs.
+	 * L'attribut est stockée dans le hashmap courant de stackVariable.
+	 * @param field l'attribut a traiter
+	 */
 	private void fieldProcess(CtFieldImpl  field) {
 		
 		String fieldName = field.getSimpleName();
@@ -180,6 +246,11 @@ public class NullProcessor extends AbstractProcessor<CtClassImpl> {
 		stackVariable.get(blockDepth).put(fieldName, assignement);
 	}
 
+	/**
+	 * Méthode traitant les affectations.
+	 * La valeur de l'affectation est mis a jour dans le hashmap courant.
+	 * @param assign l'affection a traiter
+	 */
 	public void assignProcess(CtAssignmentImpl assign) {
 		
 		String assigned = assign.getAssigned().toString();
@@ -189,15 +260,14 @@ public class NullProcessor extends AbstractProcessor<CtClassImpl> {
 	}
 
 
+	/**
+	 * Permet a l'utilisateur de recuperer les résultats de l'analyse. 
+	 * 
+	 * @return une liste des résultats
+	 */
 	public ArrayList<DataVar> getResultNpe() {
 		return resultNpe;
 	}
-
-	public void setResultNpe(ArrayList<DataVar> resultNpe) {
-		this.resultNpe = resultNpe;
-	}
-
-	
 	
 
 }
