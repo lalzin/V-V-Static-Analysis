@@ -30,9 +30,7 @@ public class App
     	//int cycloResult = ScannerVandV.cyclomaticScanner("/home/simon/eclipse-workspace/Camenbert");
     	//log.info("CYCLOMATIC = "+cycloResult);
     	
-    	ArrayList<DataVar> listResults = ScannerVandV.nullPointerScanner("./input/NullPointer2Methods.java");
-				
-    	List<DataVar> listResults = new ArrayList<DataVar>();
+    	ArrayList<DataVar> listResults = ScannerVandV.nullPointerScanner("./input/NullPointerIf.java");
 		for (DataVar data : listResults ) {
         	if(data.getStatus().equals(STATUS.ALERT)) {
         		log.info("ALERT for ["+data.getVariableName()+"] with value ["+data.getValue()+"] at line "+data.getLine());

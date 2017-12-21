@@ -16,6 +16,35 @@ import spoon.reflect.CtModel;
 
 public class NullPointerProcessorTest {
 
+	@Test
+	public void testNPEIf () {
+
+    	ArrayList<DataVar> listResults = ScannerVandV.nullPointerScanner("./input/NullPointerIf.java");
+
+    	ArrayList<DataVar> listExpectedResult = new ArrayList<DataVar>();
+    	
+    	
+    	 /*OK for [var4] with value ["titi"] at line 16
+			WARNING for [var4] with value [null] at line 20
+			OK for [var3] with value ["tutu"] at line 27
+			ALERT for [var1] with value [null] at line 29
+			OK for [var2] with value ["toto"] at line 31*/
+    	
+    	DataVar data1 = new DataVar("\"titi\"", STATUS.OK, 16, "var4");
+    	DataVar data2 = new DataVar("null", STATUS.WARNING, 20, "var4");
+    	DataVar data3 = new DataVar("\"tutu\"", STATUS.OK, 27, "var3");
+    	DataVar data4 = new DataVar("null", STATUS.ALERT, 29, "var1");
+    	DataVar data5 = new DataVar("\"toto\"", STATUS.OK, 31, "var2");
+
+    	listExpectedResult.add(data1);
+    	listExpectedResult.add(data2);
+    	listExpectedResult.add(data3);
+    	listExpectedResult.add(data4);
+    	listExpectedResult.add(data5);
+    	
+    	assertTrue(ScannerVandV.equalsResultNPE(listResults,listExpectedResult));
+		
+	}
 	
 	@Test
 	public void testNPESimple () {
@@ -44,6 +73,18 @@ public class NullPointerProcessorTest {
     	listExpectedResult.add(data5);
     	
     	assertTrue(ScannerVandV.equalsResultNPE(listResults,listExpectedResult));
+		
+	}
+	
+	@Test
+	public void testNPESimpleError () {
+
+    	ArrayList<DataVar> listResults = ScannerVandV.nullPointerScanner("./input/NullPointerSimple.java");
+
+    	ArrayList<DataVar> listExpectedResult = new ArrayList<DataVar>();
+    	
+    	
+    	assertFalse(ScannerVandV.equalsResultNPE(listResults,listExpectedResult));
 		
 	}
 	
@@ -109,6 +150,40 @@ public class NullPointerProcessorTest {
     	listExpectedResult.add(data6);
     	
     	assertTrue(ScannerVandV.equalsResultNPE(listResults,listExpectedResult));
+		
+	}
+	
+	@Test
+	public void testNPEMethodsError() {
+
+    	ArrayList<DataVar> listResults = ScannerVandV.nullPointerScanner("./input/NullPointer2Methods.java");
+
+    	ArrayList<DataVar> listExpectedResult = new ArrayList<DataVar>();
+    	
+    	
+    	 /*OK for [var4] with value ["titi"] at line 17
+			OK for [var3] with value ["tutu"] at line 22
+			ALERT for [var1] with value [null] at line 24
+			OK for [var2] with value ["toto"] at line 26
+			OK for [var2] with value ["toto"] at line 32
+			ALERT for [var3] with value [null] at line 34
+			*/
+			    	
+    	DataVar data1 = new DataVar("\"titi\"", STATUS.OK, 99, "var4");
+    	DataVar data2 = new DataVar("\"tutu\"", STATUS.OK, 11, "var3");
+    	DataVar data3 = new DataVar("null", STATUS.ALERT, 22, "var1");
+    	DataVar data4 = new DataVar("\"toto\"", STATUS.OK, 33, "var2");
+    	DataVar data5 = new DataVar("\"toto\"", STATUS.OK, 44, "var2");
+    	DataVar data6 = new DataVar("null", STATUS.ALERT, 55, "var3");
+
+    	listExpectedResult.add(data1);
+    	listExpectedResult.add(data2);
+    	listExpectedResult.add(data3);
+    	listExpectedResult.add(data4);
+    	listExpectedResult.add(data5);
+    	listExpectedResult.add(data6);
+    	
+    	assertFalse(ScannerVandV.equalsResultNPE(listResults,listExpectedResult));
 		
 	}
 }
