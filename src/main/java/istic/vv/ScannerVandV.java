@@ -109,7 +109,28 @@ public class ScannerVandV {
 
 	        return nullProcessor.getResultNpe();
 	    }
-	    
-	
-	
+
+		public static boolean equalsResultNPE(ArrayList<DataVar> listResults, ArrayList<DataVar> listExpectedResult) {
+			
+			if(listResults.size() != listExpectedResult.size()) {
+				return false;
+			}
+			
+			boolean listIdentique = true;
+
+			for(DataVar dataExpected : listExpectedResult) {
+				
+				boolean elementPresent = false;
+				for(DataVar realData : listResults) {
+					
+					if(realData.equals(dataExpected)) {
+						elementPresent = true;
+					}				
+				}
+				if(elementPresent==false) {
+					listIdentique = false;
+				}
+			}
+			return listIdentique;	
+		}
 }

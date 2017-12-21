@@ -46,6 +46,33 @@ public class DataVar {
 	public void setVariableName(String variableName) {
 		this.variableName = variableName;
 	}
+
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		DataVar other = (DataVar) obj;
+		if (line != other.line)
+			return false;
+		if (status != other.status)
+			return false;
+		if (value == null) {
+			if (other.value != null)
+				return false;
+		} else if (!value.equals(other.value))
+			return false;
+		if (variableName == null) {
+			if (other.variableName != null)
+				return false;
+		} else if (!variableName.equals(other.variableName))
+			return false;
+		return true;
+	}
 	
 	
 	

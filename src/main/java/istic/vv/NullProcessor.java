@@ -30,7 +30,7 @@ import spoon.support.reflect.declaration.CtMethodImpl;
 
 public class NullProcessor extends AbstractProcessor<CtClassImpl> {
 	
-	private boolean addOkValue = false;
+	private boolean addOkValue = true;
 
 	private ArrayList<HashMap<String, String>> stackVariable = new ArrayList<HashMap<String,String>>();
 		
@@ -121,7 +121,7 @@ public class NullProcessor extends AbstractProcessor<CtClassImpl> {
 			if(stackVariable.get(blockDepth).containsKey(elem.toString())){
 				if(stackVariable.get(blockDepth).get(elem.toString()).equals("null")) {
 					DataVar maDataVar;
-					if(this.blockDepth==0) {
+					if(this.blockDepth<2) {
 						maDataVar = new DataVar(stackVariable.get(blockDepth).get(elem.toString()), 
 								  STATUS.ALERT, 
 								  stat.getPosition().getLine(),

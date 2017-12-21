@@ -30,7 +30,7 @@ public class App
     	//int cycloResult = ScannerVandV.cyclomaticScanner("/home/simon/eclipse-workspace/Camenbert");
     	//log.info("CYCLOMATIC = "+cycloResult);
     	
-    	ScannerVandV.nullPointerScanner("./input/NullPointer2Methods.java");
+    	ArrayList<DataVar> listResults = ScannerVandV.nullPointerScanner("./input/NullPointer2Methods.java");
 				
     	List<DataVar> listResults = new ArrayList<DataVar>();
 		for (DataVar data : listResults ) {
