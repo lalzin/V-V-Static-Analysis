@@ -26,7 +26,23 @@ public class App
 
     public static void main( String[] args )
     {
-    
+    	     		
+    	//int cycloResult = ScannerVandV.cyclomaticScanner("/home/simon/eclipse-workspace/Camenbert");
+    	//log.info("CYCLOMATIC = "+cycloResult);
+    	
+    	/*ArrayList<DataVar> listResults = ScannerVandV.nullPointerScanner("./input/NullPointer2Methods.java");
+				
+		for (DataVar data : listResults ) {
+        	if(data.getStatus().equals(STATUS.ALERT)) {
+        		log.info("ALERT for ["+data.getVariableName()+"] with value ["+data.getValue()+"] at line "+data.getLine());
+        	} else if(data.getStatus().equals(STATUS.WARNING)) {
+        		log.info("WARNING for ["+data.getVariableName()+"] with value ["+data.getValue()+"] at line "+data.getLine());
+        	} else if(data.getStatus().equals(STATUS.OK)) {
+        		log.info("OK for ["+data.getVariableName()+"] with value ["+data.getValue()+"] at line "+data.getLine());
+        	}
+        } 
+    	*/
+    	
       
     }
     
