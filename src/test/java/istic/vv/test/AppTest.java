@@ -1,4 +1,4 @@
-package istic.vv.istic.vv;
+package istic.vv.test;
 
 import junit.framework.Test;
 import junit.framework.TestCase;

@@ -36,9 +36,6 @@ public class CycloProcessor extends AbstractProcessor<CtMethodImpl> {
 
 		int nbCond = method.getElements(new TypeFilter(CtIf.class)).size();
 		int nbLoop = method.getElements(new TypeFilter(CtLoop.class)).size();
-		
-		System.out.println("nbCond = "+nbCond);
-		System.out.println("nbLoop = "+nbLoop);
 
 		//nbCyclo = nbCyclo + nbCond + nbLoop + 1; // Si +1 pour chaque méthode
 		nbCyclo = nbCyclo + nbCond + nbLoop; // Si +1 pour un projet
@@ -48,13 +45,7 @@ public class CycloProcessor extends AbstractProcessor<CtMethodImpl> {
 	public int getNbCyclo() {
 		return nbCyclo;
 	}
-	
-	public int getFileCyclo(File file) {
 		
-		return 0;
-	}
-
-	
 	
 
 }
