@@ -13,16 +13,23 @@ public class NullPointerIfElse {
 		public void test() {
 		
 			String var4 = "titi";
+			String var5 = "hello"
 			var4.length(); // NPE = NO
-			
-			var4 = null;
-			if(var2.length()=4) {
-				var4.toString(); // NPE = YES
+			if(var4.equals("titi")) {
+				var5="world";
 			}
 			else {
-				var4=null;
+				var5="cyclo";
 			}
-			
+			var4 = null;
+			i = 0;
+			while(i<10) {
+				var3.toString(); // NPE = YES
+				i++;
+				if(var5.equals("cyclo")) {
+					var5.toString();
+				}
+			}	
 			var3 = "tutu";
 			var3.toString(); // NPE = NO
 			

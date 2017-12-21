@@ -3,6 +3,7 @@ package istic.vv;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.io.FileUtils;
@@ -31,7 +32,8 @@ public class App
     	
     	ScannerVandV.nullPointerScanner("./input/NullPointer2Methods.java");
 				
-    	for (DataVar data : listResults) {
+    	List<DataVar> listResults = new ArrayList<DataVar>();
+		for (DataVar data : listResults ) {
         	if(data.getStatus().equals(STATUS.ALERT)) {
         		log.info("ALERT for ["+data.getVariableName()+"] with value ["+data.getValue()+"] at line "+data.getLine());
         	} else if(data.getStatus().equals(STATUS.WARNING)) {

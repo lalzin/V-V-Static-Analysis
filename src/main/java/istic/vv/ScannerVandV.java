@@ -52,6 +52,32 @@ public class ScannerVandV {
 
 	        return totalCyclo;
 	    }
+	  
+	  public static int cyclomaticScannerFoFile(String filePath) {
+	    	
+	    	log.debug("### Cyclomatic Scanner One File ###");
+	    	
+	    	//Chemin vers le répertoire du projet a scanner
+	    	File oneFile= new File(filePath);
+	    	log.debug("## Fichier analysée :" + oneFile.getName() +" ##");
+	    	
+			if(!oneFile.exists()) {
+				log.debug("Le fichier n'existe pas");
+			}
+			
+		        Launcher launcher = new Launcher();
+		        launcher.getEnvironment().setAutoImports(true);
+		        launcher.getEnvironment().setNoClasspath(true);
+		        launcher.addInputResource(oneFile.getPath());
+		        launcher.buildModel();
+		        CtModel root = launcher.getModel();
+				CycloProcessor processor = new CycloProcessor();
+		        log.debug("\nFile : "+oneFile.getName());
+		        launcher.addProcessor(processor);
+		        launcher.process();
+		        log.debug("Cyclomatic = "+processor.getNbCyclo());  
+	        return processor.getNbCyclo();
+	    }
 	    
 	    public static ArrayList<DataVar> nullPointerScanner(String fileToAnalyse) {
 	    	
