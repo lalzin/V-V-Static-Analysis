@@ -29,7 +29,7 @@ public class App
     	//int cycloResult = ScannerVandV.cyclomaticScanner("/home/simon/eclipse-workspace/Camenbert");
     	//log.info("CYCLOMATIC = "+cycloResult);
     	
-    	ArrayList<DataVar> listResults = ScannerVandV.nullPointerScanner("/home/simon/eclipse-workspace/V-V-Static-Analysis/input/NullPointer2Methods.java");
+    	ScannerVandV.nullPointerScanner("./input/NullPointer2Methods.java");
 				
     	for (DataVar data : listResults) {
         	if(data.getStatus().equals(STATUS.ALERT)) {

@@ -16,9 +16,7 @@ public class CycloProcessorTest {
 	
 	@Test
 	public void testCyclo1 () {
-
-		int cycloResult = ScannerVandV.cyclomaticScanner("/home/simon/eclipse-workspace/Camenbert");
-    	
+		ScannerVandV.cyclomaticScanner("imput");
 		
 		
 		

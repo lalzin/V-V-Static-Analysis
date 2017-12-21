@@ -1,13 +1,5 @@
 package istic.vv;
 
-import java.io.File;
-import java.util.Collection;
-import java.util.Iterator;
-
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.filefilter.DirectoryFileFilter;
-import org.apache.commons.io.filefilter.RegexFileFilter;
-
 import spoon.processing.AbstractProcessor;
 import spoon.reflect.code.CtIf;
 import spoon.reflect.code.CtLoop;
